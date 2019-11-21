@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>OPass Calculator</title>
+
+    <!-- Metro 4 -->
+    <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-all.min.css">
+</head>
+<body>
+<h1>OPass Calculator</h1>
+<form id="frmOpass" method="post">
+    {% csrf_token %}
+    {% if Frontal %}
+        <h2> Frontal Stations </h2>
+        <div class="form-group">
+            {% for station in Frontal %}
+                <input type="checkbox" name="{{ station }}" data-role="switch"
+                       data-caption="{{ station }}">
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if Ramp %}
+        <h2> Ramp Stations </h2>
+        <div class="form-group">
+            {% for station in Ramp %}
+                <input type="checkbox" name="{{ station }}" data-role="switch"
+                       data-caption="{{ station }}">
+            {% endfor %}
+        </div>
+    {% endif %}
+    <h2> Vehicle Type </h2>
+    <div class="form-group">
+        <input type="radio" data-role="radio" name="vehicle" data-caption="Motorcycle" value="0">
+        <input type="radio" data-role="radio" name="vehicle" data-caption="Vehicles" value="1">
+        <input type="radio" data-role="radio" name="vehicle" data-caption="Vehicles with 2-3 axes" value="2">
+        <input type="radio" data-role="radio" name="vehicle" data-caption="Vehicles with 4 or more axes" value="3">
+    </div>
+
+    <div class="form-group">
+        <input class="button success" type="submit" value="Calculate">
+    </div>
+</form>
+
+<div id="results">
+    <h2>Results</h2>
+
+</div>
+<!-- Metro 4 -->
+<script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>
+<script type="text/javascript">
+    const frm = $("#frmOpass");
+    const form = document.querySelector('#frmOpass');
+    frm.submit(function (e) {
+            e.preventDefault();
+            $.post('{% url "calculate" %}', document.getElementById("frmOpass")).then(
+                function (response) {
+                    console.log(response);
+                },
+                function (xhr) {
+                    console.log(xhr.status, xhr.statusText);
+                }
+            );
+            return false;
+        }
+    );
+</script>
+</body>
+</html>
