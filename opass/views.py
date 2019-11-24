@@ -1,28 +1,27 @@
-import json
-
 from django.http import JsonResponse
 from django.shortcuts import render
 
 # Create your views here.
-from opass.models import TOLL_RATES
+from opass.calculate import calculate_cost
+from opass.models import FRONTAL, RAMP
 
 
 def index(request):
-    return render(request, 'opass/index.html', {'Frontal': TOLL_RATES['Frontal'], 'Ramp': TOLL_RATES['Ramp']})
+    return render(request, 'opass/index.html', {'Frontal': FRONTAL, 'Ramp': RAMP})
 
 
 def calculate(request):
     response_data = {}
     cost = 0
     vehicle_type = int(request.POST.get('vehicle'))
+    working_days = bool(request.POST.get('Working Days'))
     for key, value in request.POST.items():
-        if key != 'vehicle' or key != 'csrfmiddlewaretoken':
-            if key in TOLL_RATES['Frontal']:
-                cost += TOLL_RATES['Frontal'][key][vehicle_type]
-            if key in TOLL_RATES['Ramp']:
-                cost += TOLL_RATES['Ramp'][key][vehicle_type]
-    response_data['cost'] = cost
-    return JsonResponse(response_data)
+        if key in FRONTAL:
+            cost += FRONTAL[key][vehicle_type]
+        if key in RAMP:
+            cost += RAMP[key][vehicle_type]
 
-    # return render(request, 'opass/index.html',
-#               {'Frontal': TOLL_RATES['Frontal'], 'Ramp': TOLL_RATES['Ramp']})
+    for month in range(1, 13):
+        response_data[month] = calculate_cost(cost, working_days, month)
+
+    return JsonResponse(response_data)

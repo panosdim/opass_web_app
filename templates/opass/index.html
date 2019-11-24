@@ -35,9 +35,15 @@
     <h2> Vehicle Type </h2>
     <div class="form-group">
         <input type="radio" data-role="radio" name="vehicle" data-caption="Motorcycle" value="0">
-        <input type="radio" data-role="radio" name="vehicle" data-caption="Vehicles" value="1">
+        <input type="radio" data-role="radio" name="vehicle" data-caption="Vehicles" value="1" checked>
         <input type="radio" data-role="radio" name="vehicle" data-caption="Vehicles with 2-3 axes" value="2">
         <input type="radio" data-role="radio" name="vehicle" data-caption="Vehicles with 4 or more axes" value="3">
+    </div>
+
+    <h2> Working Days</h2>
+    <div class="form-group">
+        <input type="checkbox" name="Working Days" data-role="switch"
+               data-caption="Working Days">
     </div>
 
     <div class="form-group">
@@ -47,18 +53,38 @@
 
 <div id="results">
     <h2>Results</h2>
-
+    <table id="results" class="table">
+        <thead>
+        <tr></tr>
+        </thead>
+        <tbody>
+        <tr></tr>
+        </tbody>
+    </table>
 </div>
 <!-- Metro 4 -->
 <script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>
 <script type="text/javascript">
+    const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     const frm = $("#frmOpass");
-    const form = document.querySelector('#frmOpass');
-    frm.submit(function (e) {
+    const results = $("#results");
+    results.hide();
+    frm.submit((e) => {
             e.preventDefault();
-            $.post('{% url "calculate" %}', document.getElementById("frmOpass")).then(
+            $.json('{% url "calculate" %}', frm[0]).then(
                 function (response) {
                     console.log(response);
+                    const head = $("#results thead tr");
+                    const body = $("#results tbody tr");
+                    MONTHS.forEach((month, index) => {
+                        const th = $("<th>");
+                        th.html(month);
+                        head.append(th);
+                        const cell = $("<td>");
+                        cell.html(response[index + 1]);
+                        body.append(cell);
+                    });
+                    results.show()
                 },
                 function (xhr) {
                     console.log(xhr.status, xhr.statusText);
@@ -66,7 +92,8 @@
             );
             return false;
         }
-    );
+    )
+    ;
 </script>
 </body>
 </html>
