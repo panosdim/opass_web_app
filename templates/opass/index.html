@@ -7,14 +7,14 @@
     <title>OPass Calculator</title>
 
     <!-- Metro 4 -->
-    <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-all.min.css">
+    <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4.3.4/css/metro-all.min.css">
 </head>
 <body>
 <h1>OPass Calculator</h1>
 <form id="frmOpass" method="post">
     {% csrf_token %}
     {% if Frontal %}
-        <h2> Frontal Stations </h2>
+        <h2>Frontal Stations</h2>
         <div class="form-group">
             {% for station in Frontal %}
                 <input type="checkbox" name="{{ station }}" data-role="switch"
@@ -24,7 +24,7 @@
     {% endif %}
 
     {% if Ramp %}
-        <h2> Ramp Stations </h2>
+        <h2>Ramp Stations</h2>
         <div class="form-group">
             {% for station in Ramp %}
                 <input type="checkbox" name="{{ station }}" data-role="switch"
@@ -32,7 +32,7 @@
             {% endfor %}
         </div>
     {% endif %}
-    <h2> Vehicle Type </h2>
+    <h2>Vehicle Type</h2>
     <div class="form-group">
         <input type="radio" data-role="radio" name="vehicle" data-caption="Motorcycle" value="0">
         <input type="radio" data-role="radio" name="vehicle" data-caption="Vehicles" value="1" checked>
@@ -40,10 +40,16 @@
         <input type="radio" data-role="radio" name="vehicle" data-caption="Vehicles with 4 or more axes" value="3">
     </div>
 
-    <h2> Working Days</h2>
+    <h2>Working Days</h2>
     <div class="form-group">
         <input type="checkbox" name="Working Days" data-role="switch"
-               data-caption="Working Days">
+               data-caption="Working Days" checked>
+    </div>
+
+    <h2>Passes per day</h2>
+    <div class="form-group">
+        <input data-role="slider" name="Passes per day" data-min="1" data-max="4" data-value="2" data-hint="true"
+               data-hint-always="true">
     </div>
 
     <div class="form-group">
@@ -63,7 +69,7 @@
     </table>
 </div>
 <!-- Metro 4 -->
-<script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>
+<script src="https://cdn.metroui.org.ua/v4.3.4/js/metro.min.js"></script>
 <script type="text/javascript">
     const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     const frm = $("#frmOpass");

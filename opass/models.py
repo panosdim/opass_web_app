@@ -1,5 +1,7 @@
 # Create your models here.
-FRONTAL = {
+from typing import Dict, List
+
+FRONTAL: Dict[str, List[float]] = {
     "Elefsina": [1.50, 2.10, 5.40, 7.60],
     "Isthmos": [1.20, 1.80, 4.60, 6.40],
     "Kiato": [1.60, 2.30, 5.80, 8.10],
@@ -7,7 +9,7 @@ FRONTAL = {
     "Rio": [1.60, 2.30, 5.70, 8.10]
 }
 
-RAMP = {
+RAMP: Dict[str, List[float]] = {
     "Nea Peramos (P)": [1.00, 1.40, 3.60, 5.10],
     "Pachi (P)": [0.60, 0.90, 2.30, 3.30],
     "Ag. Theodori (A)": [0.30, 0.50, 1.40, 1.90],

@@ -12,7 +12,7 @@ import calendar
 import datetime
 
 
-def getOrthodoxEaster(year):
+def orthodox_easter(year):
     oed = datetime.date.today()
 
     r1 = year % 4
@@ -22,10 +22,10 @@ def getOrthodoxEaster(year):
     r5 = (2 * r1 + 4 * r2 + 6 * r4 + 6) % 7
     days = r5 + r4 + 13
 
-    if (days > 39):
+    if days > 39:
         days = days - 39
         oed = datetime.date(year, 5, days)
-    elif (days > 9):
+    elif days > 9:
         days = days - 9
         oed = datetime.date(year, 4, days)
     else:
@@ -35,42 +35,42 @@ def getOrthodoxEaster(year):
     return oed
 
 
-def getBankHolidays(year):
+def bank_holidays(year):
     holidays = []
-    newYearEve = datetime.date(year, 1, 1)
+    new_year_eve = datetime.date(year, 1, 1)
     epiphany = datetime.date(year, 1, 6)
-    easter = getOrthodoxEaster(year)
-    cleanMonday = easter - datetime.timedelta(48)
-    independenceDay = datetime.date(year, 3, 25)
-    goodFriday = easter - datetime.timedelta(2)
-    easterMonday = easter + datetime.timedelta(1)
-    labourDay = datetime.date(year, 5, 1)
-    whitMonday = easter + datetime.timedelta(50)
+    easter = orthodox_easter(year)
+    clean_monday = easter - datetime.timedelta(48)
+    independence_day = datetime.date(year, 3, 25)
+    good_friday = easter - datetime.timedelta(2)
+    easter_monday = easter + datetime.timedelta(1)
+    labour_day = datetime.date(year, 5, 1)
+    whit_monday = easter + datetime.timedelta(50)
     assumption = datetime.date(year, 8, 15)
-    ochiDay = datetime.date(year, 10, 28)
+    ochi_day = datetime.date(year, 10, 28)
     christmas = datetime.date(year, 12, 25)
     glorifying = datetime.date(year, 12, 26)
-    holidays.append(newYearEve)
+    holidays.append(new_year_eve)
     holidays.append(epiphany)
-    holidays.append(cleanMonday)
-    holidays.append(independenceDay)
-    holidays.append(goodFriday)
-    holidays.append(easterMonday)
-    holidays.append(labourDay)
-    holidays.append(whitMonday)
+    holidays.append(clean_monday)
+    holidays.append(independence_day)
+    holidays.append(good_friday)
+    holidays.append(easter_monday)
+    holidays.append(labour_day)
+    holidays.append(whit_monday)
     holidays.append(assumption)
-    holidays.append(ochiDay)
+    holidays.append(ochi_day)
     holidays.append(christmas)
     holidays.append(glorifying)
 
     return holidays
 
 
-def getWorkingDays(month):
-    businessdays = 0
+def working_days(month):
+    business_days = 0
     cal = calendar.Calendar()
     now = datetime.datetime.now()
-    holidays = getBankHolidays(now.year)
+    holidays = bank_holidays(now.year)
 
     for week in cal.monthdayscalendar(now.year, month):
         for i, day in enumerate(week):
@@ -78,9 +78,9 @@ def getWorkingDays(month):
             if day == 0 or i >= 5:
                 continue
             # or a holiday
-            thisdate = datetime.date(now.year, month, day)
-            if thisdate in holidays:
+            this_date = datetime.date(now.year, month, day)
+            if this_date in holidays:
                 continue
-            businessdays += 1
+            business_days += 1
 
-    return businessdays
+    return business_days

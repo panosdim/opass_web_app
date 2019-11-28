@@ -1,10 +1,7 @@
-from opass.workdays import getWorkingDays
-
-
 def calculate_cost(cost, working_days, month):
     """Calculate the monthly tolls cost"""
     if working_days:
-        passes = getWorkingDays(month) * 2
+        passes = working_days(month) * 2
     else:
         passes = 60 * 2
     total_cost = 0
