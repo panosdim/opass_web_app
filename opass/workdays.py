@@ -13,8 +13,6 @@ import datetime
 
 
 def orthodox_easter(year):
-    oed = datetime.date.today()
-
     r1 = year % 4
     r2 = year % 7
     r3 = year % 19

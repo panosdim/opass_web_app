@@ -1,9 +1,16 @@
-def calculate_cost(cost, working_days, month):
+import calendar
+import datetime
+
+from opass.workdays import working_days
+
+
+def calculate_cost(cost, working_days_flag, month, nr_of_passes):
     """Calculate the monthly tolls cost"""
-    if working_days:
-        passes = working_days(month) * 2
+    if working_days_flag:
+        passes = working_days(month) * nr_of_passes
     else:
-        passes = 60 * 2
+        now = datetime.datetime.now()
+        passes = calendar.monthrange(now.year, month)[1] * nr_of_passes
     total_cost = 0
 
     for i in range(1, passes + 1):
