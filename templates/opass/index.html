@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,8 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>OPass Calculator</title>
 
+    <link rel="icon" type="image/png" href="{% static "opass/favicon-32x32.png" %}" sizes="32x32"/>
+    <link rel="icon" type="image/png" href="{% static "opass/favicon-16x16.png" %}" sizes="16x16"/>
+
     <!-- Metro 4 -->
-    <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4.3.4/css/metro-all.min.css">
+    <link rel="stylesheet" href="{% static "opass/metro-all.min.css" %}">
 </head>
 <body>
 <div class="container">
@@ -19,7 +23,7 @@
     <form id="frmOpass" method="post">
         {% csrf_token %}
         {% if Frontal %}
-            <h2>Frontal Stations</h2>
+            <h3>Frontal Stations</h3>
             <div class="form-group">
                 {% for station in Frontal %}
                     <input type="checkbox" name="{{ station }}" data-role="switch"
@@ -29,7 +33,7 @@
         {% endif %}
 
         {% if Ramp %}
-            <h2>Ramp Stations</h2>
+            <h3>Ramp Stations</h3>
             <div class="form-group">
                 {% for station in Ramp %}
                     <input type="checkbox" name="{{ station }}" data-role="switch"
@@ -37,7 +41,7 @@
                 {% endfor %}
             </div>
         {% endif %}
-        <h2>Vehicle Type</h2>
+        <h3>Vehicle Type</h3>
         <div class="form-group">
             <input type="radio" data-role="radio" name="vehicle" data-caption="Motorcycle" value="0">
             <input type="radio" data-role="radio" name="vehicle" data-caption="Vehicles" value="1" checked>
@@ -45,16 +49,16 @@
             <input type="radio" data-role="radio" name="vehicle" data-caption="Vehicles with 4 or more axes" value="3">
         </div>
 
-        <h2>Working Days</h2>
+        <h3>Working Days</h3>
         <div class="form-group">
             <input type="checkbox" name="Working Days" data-role="switch"
                    data-caption="Working Days" checked>
         </div>
 
-        <h2>Passes per day</h2>
+        <h3>Passes per day</h3>
         <div class="form-group">
             <input data-role="slider" name="Passes per day" data-min="1" data-max="4" data-value="2" data-hint="true"
-                   data-hint-always="true" data-size="200" data-accuracy="1">
+                   data-hint-always="true" data-size="200" data-accuracy="1" data-hint-position="right">
         </div>
 
         <div class="form-group">
@@ -75,47 +79,10 @@
     </div>
 </div>
 <!-- Metro 4 -->
-<script src="https://cdn.metroui.org.ua/v4.3.4/js/metro.min.js"></script>
+<script src="{% static "opass/metro.min.js" %}"></script>
 <script type="text/javascript">
-    const moneyFmt = new Intl.NumberFormat('el-EL', {
-        style: 'currency',
-        currency: 'EUR',
-        minimumFractionDigits: 2,
-    });
-    const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    const frm = $("#frmOpass");
-    const results = $("#results");
-    results.hide();
-    frm.submit((e) => {
-            e.preventDefault();
-            $.json('{% url "calculate" %}', frm[0]).then(
-                function (response) {
-                    const head = $("#table thead tr");
-                    head.html("");
-                    const body = $("#table tbody tr");
-                    body.html("");
-                    MONTHS.forEach((month, index) => {
-                        const th = $("<th>");
-                        th.html(month);
-                        head.append(th);
-                        const cell = $("<td>");
-                        cell.html(moneyFmt.format(response[index + 1]));
-                        body.append(cell);
-                    });
-                    results.show()
-                },
-                function (xhr) {
-                    if (xhr.status === 422) {
-                        const error = JSON.parse(xhr.response)
-                        Metro.toast.create(error.message, null, null, "alert");
-                    } else {
-                        Metro.toast.create(xhr.statusText, null, null, "alert");
-                    }
-                }
-            );
-            return false;
-        }
-    );
+    const URL_CALCULATE = "{% url "calculate" %}"
 </script>
+<script src="{% static "opass/app.js" %}"></script>
 </body>
 </html>
