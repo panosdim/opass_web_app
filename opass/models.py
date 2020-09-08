@@ -2,11 +2,11 @@
 from typing import Dict, List
 
 FRONTAL: Dict[str, List[float]] = {
-    "Elefsina": [1.50, 2.10, 5.40, 7.60],
+    "Elefsina": [1.50, 2.10, 5.40, 7.50],
     "Isthmos": [1.20, 1.80, 4.60, 6.40],
     "Kiato": [1.60, 2.30, 5.80, 8.10],
     "Eleonas": [2.30, 3.30, 8.20, 11.50],
-    "Rio": [1.60, 2.30, 5.70, 8.10]
+    "Rio": [1.60, 2.30, 5.70, 8.00]
 }
 
 RAMP: Dict[str, List[float]] = {
